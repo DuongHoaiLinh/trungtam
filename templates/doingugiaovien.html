@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đội Ngũ Giáo Viên - Poly Center</title>
+  <link rel="stylesheet" href="/static/css/cosovatchat.css">
+  <link rel="stylesheet" href="/static/css/doingugiaovien.css">
+</head>
+<body>
+
+<!-- Navbar (Unchanged) -->
+<nav class="navbar" id="navbar">
+  <div class="logo"><span>Poly </span>Center</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Trang Chủ</a></li>
+    <li class="dropdown">
+      <a href="#">Giới thiệu ▾</a>
+      <ul class="dropdown-content">
+        <li><a href="tamnhin_sumenh.html">Tầm nhìn & Sứ mệnh</a></li>
+        <li><a href="cosovatchat.html">Cơ sở vật chất</a></li>
+        <li><a href="doingugiaovien.html">Đội ngũ giáo viên</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Khóa Học</a></li>
+    <li><a href="#">Lịch Học</a></li>
+    <li class="dropdown">
+      <a href="#">Học Viên ▾</a>
+      <ul class="dropdown-content">
+        <li><a href="tailieuhoc.html">Tài liệu học</a></li>
+        <li><a href="#">Lịch học của tôi</a></li>
+        <li><a href="#">Kết quả học tập</a></li>
+        <li><a href="#">Thông báo</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#">Giáo Viên ▾</a>
+      <ul class="dropdown-content">
+        <li><a href="#">Quản lý lớp</a></li>
+        <li><a href="#">Upload tài liệu</a></li>
+        <li><a href="#">Lịch dạy</a></li>
+        <li><a href="#">Gửi thông báo</a></li>
+      </ul>
+    </li>
+    <li><a href="register.html">Đăng Ký</a></li>
+    <li><a href="#">Liên Hệ</a></li>
+    <li><a href="login.html">Đăng Nhập</a></li>
+  </ul>
+  <div class="burger" onclick="toggleMenu()">
+    <div class="line1"></div>
+    <div class="line2"></div>
+    <div class="line3"></div>
+  </div>
+</nav>
+
+<!-- Nội dung chính: Đội Ngũ Giáo Viên -->
+<section class="teachers">
+  <div class="content-container">
+    <h1>Đội Ngũ Giáo Viên</h1>
+    <div id="teacher-list">
+      <!-- Sample Teacher 1 -->
+      <div class="teacher-section">
+        <div class="teacher-image">
+          <img src="co1.jpg" alt="Cô Emi Fukada">
+        </div>
+        <div class="teacher-text">
+          <h2>Cô Emi Fukada</h2>
+          <p>Thạc sĩ Ngôn ngữ học với hơn 10 năm kinh nghiệm giảng dạy tiếng Nhật. Chuyên gia về luyện thi Nhật ngữ và giao tiếp thực tế, được học viên đánh giá cao vì phương pháp giảng dạy sáng tạo và tận tâm.</p>
+        </div>
+      </div>
+      <!-- Sample Teacher 2 -->
+      <div class="teacher-section">
+        <div class="teacher-image">
+          <img src="thay1.jpg" alt="Thầy Tuấn">
+        </div>
+        <div class="teacher-text">
+          <h2>Thầy Tuấn</h2>
+          <p>Bạn cô Emi.</p>
+        </div>
+      </div>
+      <!-- Sample Teacher 3 -->
+      <div class="teacher-section">
+        <div class="teacher-image">
+          <img src="co2.png" alt="Cô Tyni Đoàn">
+        </div>
+        <div class="teacher-text">
+          <h2>Cô Tyni Đoàn</h2>
+          <p>Đang đến nhà thầy Tokouda.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function toggleMenu() {
+  var navLinks = document.getElementById('navLinks');
+  navLinks.classList.toggle('active');
+}
+
+// Commented out database fetching logic for now
+/*
+async function loadTeachers() {
+  try {
+    const response = await fetch('https://your-api-endpoint/teachers');
+    const teachers = await response.json();
+    const teacherList = document.getElementById('teacher-list');
+    teacherList.innerHTML = '';
+    teachers.forEach(teacher => {
+      const teacherSection = document.createElement('div');
+      teacherSection.className = 'teacher-section';
+      teacherSection.innerHTML = `
+        <div class="teacher-image">
+          <img src="${teacher.image}" alt="${teacher.name}">
+        </div>
+        <div class="teacher-text">
+          <h2>${teacher.name}</h2>
+          <p>${teacher.description}</p>
+        </div>
+      `;
+      teacherList.appendChild(teacherSection);
+    });
+  } catch (error) {
+    console.error('Error loading teachers:', error);
+    document.getElementById('teacher-list').innerHTML = '<p>Không thể tải dữ liệu giáo viên. Vui lòng thử lại sau.</p>';
+  }
+}
+*/
+
+// Load hardcoded teachers (for frontend development)
+function loadTeachers() {
+  const teachers = [
+    {
+      name: "Cô Emi Fukada",
+      description: "Thạc sĩ Ngôn ngữ học với hơn 10 năm kinh nghiệm giảng dạy tiếng Nhật. Chuyên gia về luyện thi Nhật ngữ và giao tiếp thực tế, được học viên đánh giá cao vì phương pháp giảng dạy sáng tạo và tận tâm.",
+      image: "co1.jpg"
+    },
+    {
+      name: "Thầy Tuấn",
+      description: "Bạn cô Emi.",
+      image: "thay1.jpg"
+    },
+    {
+      name: "Cô Tyni Đoàn",
+      description: "Đang đến nhà thầy Tokouda.",
+      image: "co2.png"
+    }
+  ];
+
+  const teacherList = document.getElementById('teacher-list');
+  teacherList.innerHTML = ''; // Clear existing content
+  teachers.forEach(teacher => {
+    const teacherSection = document.createElement('div');
+    teacherSection.className = 'teacher-section';
+    teacherSection.innerHTML = `
+      <div class="teacher-image">
+        <img src="${teacher.image}" alt="${teacher.name}">
+      </div>
+      <div class="teacher-text">
+        <h2>${teacher.name}</h2>
+        <p>${teacher.description}</p>
+      </div>
+    `;
+    teacherList.appendChild(teacherSection);
+  });
+}
+
+// Load teachers when the page loads
+document.addEventListener('DOMContentLoaded', loadTeachers);
+</script>
+
+</body>
+</html>

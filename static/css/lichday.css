@@ -1,0 +1,39 @@
+.teaching-schedule-section {
+    margin-top: 32px;
+    padding: 24px;
+    background-color: #fffdf6;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    max-width: 900px;
+    font-family: Arial, sans-serif;
+  
+    min-height: 500px;      /* Giữ chiều cao tối thiểu */
+    padding-bottom: 80px;   /* Tạo khoảng trống cho footer */
+  }
+  
+  .teaching-schedule-section h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .schedule-table th,
+  .schedule-table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .schedule-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+  
+  .schedule-table tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+  

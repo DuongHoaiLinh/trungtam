@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đăng Ký - Trung Tâm Học Tập</title>
+  <link rel="stylesheet" href="/static/css/login-style.css">
+</head>
+<body>
+
+<div class="login-container">
+  <h2>Đăng Ký</h2>
+  <form action="xuly_dangky.php" method="post" class="login-form">
+    <input type="text" name="name" placeholder="Họ và Tên*" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="phonenumber" name="phonenumber" placeholder="Số điện thoại*" required>
+    <input type="password" name="password" placeholder="Mật khẩu*" required>
+    <input type="password" name="confirm_password" placeholder="Xác nhận mật khẩu*" required>
+    <button type="submit">Đăng Ký</button>
+    <div class="login-links">
+      <a href="login.html">Đã có tài khoản? Đăng nhập</a><br>
+      <a href="index.html">Về trang chủ</a>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

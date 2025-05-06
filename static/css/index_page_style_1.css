@@ -1,0 +1,113 @@
+/* --- index_page_style_1.css --- */
+
+.slideshow-container {
+    position: relative;
+    max-width: 1200px; /* Hoặc giới hạn chiều rộng bạn muốn */
+    margin: 30px auto; /* Thêm khoảng cách trên dưới cho đẹp */
+    overflow: hidden;  /* Giữ nguyên để ẩn phần thừa của ảnh trái/phải */
+    border-radius: 10px;
+    /* Quan trọng: Để JS đặt chiều cao. Thêm transition cho mượt */
+    /* Đặt một min-height ban đầu để tránh bị xẹp hoàn toàn lúc tải */
+    min-height: 280px; /* Điều chỉnh nếu cần */
+    transition: height 0.5s ease-in-out; /* Hiệu ứng chuyển chiều cao mượt */
+    background-color: #f1f0f0; /* Thêm màu nền nhẹ để thấy rõ container */
+  }
+  
+  .mySlide {
+    display: none; /* Mặc định ẩn */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Cho phép slide chiếm toàn bộ chiều cao container (khi container có height) */
+    opacity: 0; /* Bắt đầu ẩn hoàn toàn */
+    transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out; /* Hiệu ứng chuyển mượt */
+    transform: scale(0.8); /* Mặc định hơi nhỏ */
+  }
+  
+  .mySlide img {
+    display: block; /* Tránh khoảng trống thừa dưới ảnh */
+    width: 100%;
+    height: 100%; /* Ảnh sẽ cố gắng lấp đầy slide */
+    object-fit: contain; /* Hiển thị toàn bộ ảnh, có thể có viền nếu tỷ lệ khác container */
+    /* hoặc dùng 'cover' nếu muốn ảnh lấp đầy và cắt bớt phần thừa */
+    border-radius: 10px; /* Bo góc ảnh */
+  }
+  
+  /* Trạng thái các slide được JS thêm vào */
+  
+  /* Slide ở giữa (Active) */
+  .mySlide.active {
+    opacity: 1;
+    transform: translateX(0) scale(2); /* Hiện rõ, phóng to về giữa */
+    z-index: 10; /* Luôn ở trên cùng */
+  }
+  
+  /* Slide sắp hiển thị bên phải */
+  .mySlide.right {
+    opacity: 0.5; /* Hơi mờ */
+    transform: translateX(55%) scale(0.85); /* Di chuyển sang phải, thu nhỏ */
+    z-index: 9; /* Dưới slide active */
+  }
+  
+  /* Slide sắp hiển thị bên trái */
+  .mySlide.left {
+    opacity: 0.5; /* Hơi mờ */
+    transform: translateX(-55%) scale(0.85); /* Di chuyển sang trái, thu nhỏ */
+    z-index: 9; /* Dưới slide active */
+  }
+  
+  /* --- Nút điều khiển --- */
+  .prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px; /* Dịch lên để căn giữa theo chiều dọc */
+    color: white;
+    font-weight: bold;
+    font-size: 24px; /* Giảm kích thước chữ 1 chút */
+    transition: 0.3s ease;
+    border-radius: 0 5px 5px 0; /* Bo góc nút */
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 11; /* Trên các slide */
+  }
+  
+  /* Định vị nút Next sang phải */
+  .next {
+    right: 0;
+    border-radius: 5px 0 0 5px; /* Bo góc ngược lại */
+  }
+  
+  /* Định vị nút Prev */
+  .prev {
+      left: 0; /* Đặt nút prev bên trái */
+  }
+  
+  
+  /* Hiệu ứng hover cho nút */
+  .prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .main h1 {
+    font-size: 3em; /* Kích thước chữ dòng tên trung tâm */
+    margin-bottom: 0.5em;
+  }
+  
+  .main h1 .poly-color_1 {
+    color: #fac929; /* Đổi màu chữ "ABC" sang màu xanh dương */
+  }
+
+  .main h1 .poly-color_2 {
+    color: #0000FF; /* Đổi màu chữ "ABC" sang màu xanh dương */
+  }
+  
+  .main p.slogan { /* Giả sử bạn đã thêm class slogan vào thẻ p */
+    font-size: 1.5em; /* Kích thước chữ dòng slogan */
+    color: #555;
+  }
+  
+  /* Không cần @keyframes fade nữa vì dùng transition trực tiếp */

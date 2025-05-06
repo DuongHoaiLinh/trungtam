@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tầm Nhìn & Sứ Mệnh - Poly Center</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/tailieuhoc.css"/>
+  <link rel="stylesheet" href="/static/css/footer.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar" id="navbar">
+  <div class="logo"><span>Poly </span>Center</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Trang Chủ</a></li>
+
+    <li class="dropdown">
+      <a href="#">Giới thiệu ▾</a>
+      <ul class="dropdown-content">
+        <li><a href="tamnhin_sumenh.html">Tầm nhìn & sứ mệnh</a></li>
+        <li><a href="cosovatchat.html">Cơ sở vật chất</a></li>
+        <li><a href="doingugiaovien.html">Đội ngũ giáo viên</a></li>
+      </ul>
+    </li>
+
+    <li><a href="khoahoc.html">Khóa Học</a></li>
+    <li><a href="#">Lịch Học</a></li>
+
+    <li class="dropdown">
+      <a href="#">Học Viên ▾</a>
+      <ul class="dropdown-content">
+        <li><a href="tailieuhoc.html">Tài liệu học</a></li>
+        <li><a href="#">Lịch học của tôi</a></li>
+        <li><a href="#">Kết quả học tập</a></li>
+        <li><a href="#">Thông báo</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <a href="#">Giáo Viên ▾</a>
+      <ul class="dropdown-content">
+        <li><a href="#">Quản lý lớp</a></li>
+        <li><a href="#">Upload tài liệu</a></li>
+        <li><a href="#">Lịch dạy</a></li>
+        <li><a href="#">Gửi thông báo</a></li>
+      </ul>
+    </li>
+
+    <li><a href="register.html">Đăng Ký</a></li>
+    <li><a href="#">Liên Hệ</a></li>
+    <li><a href="login.html">Đăng Nhập</a></li>
+  </ul>
+
+  <!-- Hamburger icon -->
+  <div class="burger" onclick="toggleMenu()">
+    <div class="line1"></div>
+    <div class="line2"></div>
+    <div class="line3"></div>
+  </div>
+</nav>
+
+<!-- Nội dung tài liệu học -->
+<div class="container py-5">
+  <div class="card shadow-lg">
+    <div class="card-body">
+      <h1 class="card-title text-center text-primary">📘 Tài Liệu Học</h1>
+      <p class="card-text mt-4">
+        Dưới đây là danh sách tài liệu học được truy xuất từ hệ thống. Chỉ hiển thị cho học viên đã đăng nhập.
+      </p>
+      <hr>
+
+      <!-- Bảng tài liệu -->
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="document-table">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Tên tài liệu</th>
+              <th>Mô tả</th>
+              <th>Ngày cập nhật</th>
+              <th>Link tải</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Dữ liệu sẽ được đổ vào đây bằng JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="index.html" class="back-button">Quay lại Trang chủ</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Phần chân trang -->
+<footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <div class="footer-logo">
+            <span class="poly-color">Poly</span> Center
+          </div>
+          <p>Future in Language</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Liên kết nhanh</h3>
+          <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="tamnhin_sumenh.html">Giới thiệu</a></li>
+            <li><a href="courses.html">Khóa học</a></li>
+            <li><a href="#">Lịch học</a></li>
+            <li><a href="register.html">Đăng ký</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Khóa học</h3>
+          <ul>
+            <li><a href="#">Tiếng Anh Giao Tiếp</a></li>
+            <li><a href="#">Tiếng Anh Thiếu Nhi</a></li>
+            <li><a href="#">Tiếng Anh IELTS</a></li>
+            <li><a href="#">Tiếng Nhật</a></li>
+            <li><a href="#">Tiếng Hàn</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Liên hệ</h3>
+          <ul class="contact-info">
+            <li><i class="fas fa-map-marker-alt"></i> 123 Đường ABC, Quận XYZ, TP.HCM</li>
+            <li><i class="fas fa-phone"></i> 0123 456 789</li>
+            <li><i class="fas fa-envelope"></i> info@polycenter.edu.vn</li>
+            <li><i class="fas fa-clock"></i> T2-T6: 8:00 - 20:00, T7-CN: 8:00 - 17:00</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>&copy; 2025 Poly Center. Tất cả quyền được bảo lưu.</p>
+      </div>
+    </div>
+</footer>
+
+<!-- Script fetch dữ liệu từ backend -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    fetch('/api/tailieu')  // Sau này backend bạn sẽ cung cấp route này
+      .then(response => response.json())
+      .then(data => {
+        const tbody = document.querySelector('#document-table tbody');
+        tbody.innerHTML = "";
+
+        data.forEach((doc, index) => {
+          const row = `
+            <tr>
+              <td>${index + 1}</td>
+              <td>${doc.ten}</td>
+              <td>${doc.mota}</td>
+              <td>${doc.ngay}</td>
+              <td><a href="${doc.link}" target="_blank">Tải về</a></td>
+            </tr>`;
+          tbody.insertAdjacentHTML('beforeend', row);
+        });
+      })
+      .catch(error => {
+        console.error('Lỗi khi tải tài liệu:', error);
+        const tbody = document.querySelector('#document-table tbody');
+        tbody.innerHTML = '<tr><td colspan="5" class="text-danger">Không thể tải dữ liệu.</td></tr>';
+      });
+  });
+</script>
+
+</body>
+</html>

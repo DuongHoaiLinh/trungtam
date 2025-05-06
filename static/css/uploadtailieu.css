@@ -1,0 +1,49 @@
+.upload-material-section {
+    padding: 24px;
+    background-color: #f7f7fb;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    max-width: 600px;
+    margin-top: 30px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .upload-material-section h2 {
+    margin-bottom: 16px;
+    color: #333;
+  }
+  
+  .upload-material-section .form-group {
+    margin-bottom: 16px;
+  }
+  
+  .upload-material-section label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+  }
+  
+  .upload-material-section input[type="text"],
+  .upload-material-section textarea,
+  .upload-material-section select,
+  .upload-material-section input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  .upload-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .upload-button:hover {
+    background-color: #218838;
+  }
+  

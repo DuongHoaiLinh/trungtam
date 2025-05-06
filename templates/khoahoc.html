@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Khóa Học - Trung Tâm</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center mb-8">Danh Sách Khóa Học</h1>
+        <div id="course-list" class="space-y-8">
+            <!-- Danh sách khóa học sẽ được thêm bởi JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        async function fetchCourses() {
+            try {
+                const response = await fetch('/api/courses');
+                const courses = await response.json();
+                const courseList = document.getElementById('course-list');
+
+                courses.forEach(course => {
+                    let classesHtml = '';
+                    course.classes.forEach(cls => {
+                        const schedulesHtml = cls.schedules.map(schedule => `
+                            <li>${schedule.day_of_week}: ${schedule.start_time} - ${schedule.end_time}</li>
+                        `).join('');
+
+                        classesHtml += `
+                            <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                                <h3 class="text-lg font-semibold">${cls.name}</h3>
+                                <p class="text-gray-600">Giáo viên: ${cls.teacher}</p>
+                                <p class="text-gray-600">Học phí: ${cls.tuition_fee.toLocaleString('vi-VN')} VNĐ</p>
+                                <p class="text-gray-600">Sĩ số: ${cls.current_students}/${cls.max_students}</p>
+                                <p class="text-gray-600">Lịch học:</p>
+                                <ul class="list-disc pl-5">${schedulesHtml}</ul>
+                            </div>
+                        `;
+                    });
+
+                    const courseCard = `
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h2 class="text-xl font-bold mb-4">${course.name}</h2>
+                            <div>${classesHtml}</div>
+                        </div>
+                    `;
+                    courseList.innerHTML += courseCard;
+                });
+            } catch (error) {
+                console.error('Lỗi khi lấy dữ liệu khóa học:', error);
+                const courseList = document.getElementById('course-list');
+                courseList.innerHTML = '<p class="text-red-500 text-center">Không thể tải danh sách khóa học. Vui lòng thử lại sau.</p>';
+            }
+        }
+
+        // Gọi hàm lấy khóa học khi trang được tải
+        window.onload = fetchCourses;
+    </script>
+</body>
+</html>

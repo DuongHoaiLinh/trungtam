@@ -1,0 +1,51 @@
+.absence-request-section {
+    margin-top: 40px;
+    padding: 24px;
+    background-color: #f8faff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    max-width: 600px;
+    font-family: Arial, sans-serif;
+  
+    min-height: 500px;
+    padding-bottom: 80px;
+  }
+  
+  .absence-request-section h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .absence-request-section .form-group {
+    margin-bottom: 16px;
+  }
+  
+  .absence-request-section label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+  }
+  
+  .absence-request-section input,
+  .absence-request-section select,
+  .absence-request-section textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  .submit-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #0069d9;
+  }
+  

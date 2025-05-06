@@ -1,0 +1,167 @@
+/* Định dạng Navbar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Navbar */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .logo span {
+    color: #ffd700;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-links li {
+    position: relative;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: white;
+    padding: 12px 15px;
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  .nav-links a:hover {
+    background: #ffd700;
+    color: #333;
+    border-radius: 5px;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content li a {
+    color: #333;
+    padding: 10px 15px;
+    display: block;
+  }
+  
+  .dropdown-content li a:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .burger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+  }
+  
+  .burger div {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 4px;
+  }
+  
+  /* Responsive */
+  @media screen and (max-width: 768px) {
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+    }
+    .nav-links.active {
+      display: flex;
+    }
+    .burger {
+      display: flex;
+    }
+  }
+  
+/* Cơ sở vật chất */
+.teachers {
+    padding: 50px 0;
+    background-color: #f9f9f9;
+  }
+  .content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .teacher-section {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc để hình và chữ thẳng hàng */
+    margin-bottom: 40px;
+  }
+  .teacher-image {
+    width: 150px; /* Kích thước cố định cho khung hình */
+    height: 200px;
+    padding: 10px;
+    border: 2px solid #ccc; /* Khung cố định bao quanh hình */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px; /* Khoảng cách giữa hình và chữ */
+  }
+  .teacher-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Đảm bảo hình vừa khung mà không bị méo */
+    border-radius: 8px; /* Bo góc hình cho đẹp */
+  }
+  .teacher-text {
+    flex: 1; /* Chiếm phần còn lại của hàng */
+    padding: 10px;
+  }
+  .teacher-text h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  .teacher-text p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #666;
+  }
+  @media (max-width: 768px) {
+    .teacher-section {
+      flex-direction: column; /* Xếp dọc trên màn hình nhỏ */
+      align-items: flex-start;
+    }
+    .teacher-image {
+      margin-right: 0;
+      margin-bottom: 15px;
+    }
+    .teacher-text {
+      width: 100%;
+    }
+  }
+  

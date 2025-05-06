@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch dạy - Poly Center</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/lichday.css"/>
+  <link rel="stylesheet" href="/static/css/footer.css">
+
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar" id="navbar">
+  <div class="logo"><span>Poly </span>Center</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Trang Chủ</a></li>
+
+    <li class="dropdown">
+      <a href="#">Giới thiệu ▾</a>
+      <ul class="dropdown-content">
+        <li><a href="tamnhin_sumenh.html">Tầm nhìn & sứ mệnh</a></li>
+        <li><a href="cosovatchat.html">Cơ sở vật chất</a></li>
+        <li><a href="doingugiaovien.html">Đội ngũ giáo viên</a></li>
+      </ul>
+    </li>
+
+    <li><a href="khoahoc.html">Khóa Học</a></li>
+    <li><a href="#">Lịch Học</a></li>
+
+    <li class="dropdown">
+      <a href="#">Học Viên ▾</a>
+      <ul class="dropdown-content">
+        <li><a href="tailieuhoc.html">Tài liệu học</a></li>
+        <li><a href="#">Lịch học của tôi</a></li>
+        <li><a href="#">Kết quả học tập</a></li>
+        <li><a href="#">Thông báo</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <a href="#">Giáo Viên ▾</a>
+      <ul class="dropdown-content">
+        <li><a href="#">Quản lý lớp</a></li>
+        <li><a href="#">Upload tài liệu</a></li>
+        <li><a href="lichday.html" class="active">Lịch dạy</a></li>
+        <li><a href="#">Gửi thông báo</a></li>
+      </ul>
+    </li>
+
+    <li id="registerNav"><a href="register.html">Đăng Ký</a></li>
+    <li><a href="#">Liên Hệ</a></li>
+    <li id="loginNav"><a href="login.html">Đăng Nhập</a></li>
+    <li id="logoutNav" style="display: none;"><a href="#" id="logoutBtn">Đăng Xuất</a></li>
+  </ul>
+
+  <!-- Hamburger icon -->
+  <div class="burger" onclick="toggleMenu()">
+    <div class="line1"></div>
+    <div class="line2"></div>
+    <div class="line3"></div>
+  </div>
+</nav>
+
+<div class="container-schedule">
+    <h2 class="schedule-title">Lịch dạy của tôi</h2>
+    
+    <div id="teacherInfo" class="teacher-info" style="display: none;">
+      <h3>Giáo viên: <span id="teacherName"></span></h3>
+      <p>Email: <span id="teacherEmail"></span></p>
+    </div>
+    
+    <div id="errorMessage" class="error-message" style="display: none;"></div>
+    
+    <!-- Phần lọc và tìm kiếm -->
+    <div class="schedule-filter">
+      <div class="filter-group date-range">
+        <label for="date-from">Từ ngày:</label>
+        <input type="date" id="date-from" name="date_from">
+      </div>
+      <div class="filter-group date-range">
+        <label for="date-to">Đến ngày:</label>
+        <input type="date" id="date-to" name="date_to">
+      </div>
+      <div class="filter-group">
+        <label for="course-filter">Khóa học:</label>
+        <select id="course-filter" name="course">
+          <option value="">Tất cả</option>
+          <!-- Danh sách khóa học sẽ được thêm vào bằng JavaScript -->
+        </select>
+      </div>
+      <button type="button" id="btnFilter" class="filter-btn">Lọc</button>
+    </div>
+  
+    <div id="loadingIndicator" class="loading">Đang tải dữ liệu...</div>
+    
+    <div class="schedule-table-wrapper">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Ngày</th>
+            <th>Thứ</th>
+            <th>Giờ học</th>
+            <th>Lớp</th>
+            <th>Khóa học</th>
+            <th>Phòng</th>
+            <th>Trạng thái</th>
+          </tr>
+        </thead>
+        <tbody id="scheduleTableBody">
+          <!-- Dữ liệu sẽ được thêm vào đây bằng JavaScript -->
+        </tbody>
+      </table>
+    </div>
+    
+    <div id="message" class="message" style="display: none;"></div>
+</div>
+
+<script>
+  // Thiết lập ngày mặc định (ngày hiện tại và 7 ngày sau)
+  function setDefaultDates() {
+    const today = new Date();
+    const nextWeek = new Date();
+    nextWeek.setDate(today.getDate() + 6);
+    
+    document.getElementById('date-from').valueAsDate = today;
+    document.getElementById('date-to').valueAsDate = nextWeek;
+  }
+
+  // Hàm định dạng ngày YYYY-MM-DD cho API
+  function formatDateForAPI(date) {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  // Kiểm tra xác thực
+  async function checkAuthentication() {
+    try {
+      const response = await fetch('/api/verify-auth', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        credentials: 'include'
+      });
+      
+      const data = await response.json();
+      
+      if (data.authenticated) {
+        // Nếu không phải giáo viên, chuyển hướng về trang chủ
+        if (data.role !== 'teacher') {
+          showError('Bạn không có quyền truy cập trang này!');
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 2000);
+          return false;
+        }
+        return data;
+      } else {
+        // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+        window.location.href = '/login.html?redirect=lichday.html';
+        return false;
+      }
+    } catch (error) {
+      showError('Đã xảy ra lỗi khi kiểm tra xác thực!');
+      return false;
+    }
+  }
+
+  // Hiển thị lỗi
+  function showError(message) {
+    const errorElement = document.getElementById('errorMessage');
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+  }
+
+  // Hiển thị thông báo
+  function showMessage(message) {
+    const messageElement = document.getElementById('message');
+    messageElement.textContent = message;
+    messageElement.style.display = 'block';
+  }
+
+  // Lấy thông tin giáo viên
+  async function getTeacherInfo(teacherId) {
+    try {
+      const response = await fetch(`/api/teachers/${teacherId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        credentials: 'include'
+      });
+      
+      if (response.ok) {
+        const teacher = await response.json();
+        document.getElementById('teacherName').textContent = teacher.name || 'Không có thông tin';
+        document.getElementById('teacherEmail').textContent = teacher.email || 'Không có thông tin';
+        document.getElementById('teacherInfo').style.display = 'block';
+      } else {
+        console.error('Không thể lấy thông tin giáo viên');
+      }
+    } catch (error) {
+      console.error('Lỗi khi lấy thông tin giáo viên:', error);
+    }
+  }
+
+  // Lấy danh sách khóa học mà giáo viên dạy
+  async function getCoursesByTeacher(teacherId) {
+    try {
+      const response = await fetch(`/api/teacher/${teacherId}/courses`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        credentials: 'include'
+      });
+      
+      if (response.ok) {
+        const courses = await response.json();
+        const courseFilter = document.getElementById('course-filter');
+        
+        // Xóa tất cả các option cũ trừ "Tất cả"
+        while (courseFilter.options.length > 1) {
+          courseFilter.remove(1);
+        }
+        
+        // Thêm các khóa học mới
+        courses.forEach(course => {
+          const option = document.createElement('option');
+          option.value = course.name;
+          option.textContent = course.name;
+          courseFilter.appendChild(option);
+        });
+      }
+    } catch (error) {
+      console.error('Lỗi khi lấy danh sách khóa học:', error);
+    }
+  }
+
+  // Lấy lịch dạy của giáo viên
+  async function getTeacherSchedule(teacherId) {
+    document.getElementById('loadingIndicator').style.display = 'block';
+    document.getElementById('scheduleTableBody').innerHTML = '';
+    document.getElementById('message').style.display = 'none';
+    
+    try {
+      // Lấy các tham số lọc
+      const dateFrom = formatDateForAPI(document.getElementById('date-from').value);
+      const dateTo = formatDateForAPI(document.getElementById('date-to').value);
+      const courseFilter = document.getElementById('course-filter').value;
+      
+      // Xây dựng URL với tham số lọc
+      let url = `/api/teacher/${teacherId}/schedule?date_from=${dateFrom}&date_to=${dateTo}`;
+      if (courseFilter) {
+        url += `&course=${encodeURIComponent(courseFilter)}`;
+      }
+      
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        credentials: 'include'
+      });
+      
+      if (response.ok) {
+        const scheduleData = await response.json();
+        displaySchedule(scheduleData);
+      } else {
+        const errorData = await response.json();
+        showError(errorData.error || 'Không thể lấy dữ liệu lịch dạy');
+      }
+    } catch (error) {
+      showError('Đã xảy ra lỗi khi tải lịch dạy');
+      console.error('Lỗi:', error);
+    } finally {
+      document.getElementById('loadingIndicator').style.display = 'none';
+    }
+  }
+
+  // Hiển thị lịch dạy
+  function displaySchedule(scheduleData) {
+    const tableBody = document.getElementById('scheduleTableBody');
+    tableBody.innerHTML = '';
+    
+    if (scheduleData && scheduleData.length > 0) {
+      scheduleData.forEach((lesson, index) => {
+        // Xác định trạng thái của buổi dạy
+        const today = new Date();
+        const lessonDate = new Date(lesson.date);
+        let status = '';
+        let statusClass = '';
+        
+        if (lessonDate > today) {
+          status = 'Chưa bắt đầu';
+          statusClass = 'status-pending';
+        } else if (lessonDate.toDateString() === today.toDateString()) {
+          status = 'Đang diễn ra';
+          statusClass = 'status-active';
+        } else {
+          status = 'Đã kết thúc';
+          statusClass = 'status-completed';
+        }
+        
+        const row = document.createElement('tr');
+        
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${lesson.date}</td>
+          <td>${lesson.day_of_week}</td>
+          <td>${lesson.start_time} - ${lesson.end_time}</td>
+          <td>${lesson.class_name}</td>
+          <td>${lesson.course_name}</td>
+          <td>${lesson.room}</td>
+          <td class="${statusClass}">${status}</td>
+        `;
+        
+        tableBody.appendChild(row);
+      });
+    } else {
+      showMessage('Không có lịch dạy nào trong khoảng thời gian này!');
+    }
+  }
+
+  // Cập nhật trạng thái đăng nhập/đăng xuất
+  function updateLoginLogoutLink(isLoggedIn) {
+    const loginNav = document.getElementById('loginNav');
+    const logoutNav = document.getElementById('logoutNav');
+    const registerNav = document.getElementById('registerNav');
+    
+    if (isLoggedIn) {
+      loginNav.style.display = 'none';
+      registerNav.style.display = 'none';
+      logoutNav.style.display = 'block';
+    } else {
+      loginNav.style.display = 'block';
+      registerNav.style.display = 'block';
+      logoutNav.style.display = 'none';
+    }
+  }
+
+  // Đăng xuất
+  async function logout() {
+    try {
+      await fetch('/api/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        credentials: 'include'
+      });
+      
+      localStorage.removeItem('token');
+      window.location.href = '/login.html';
+    } catch (error) {
+      console.error('Lỗi khi đăng xuất:', error);
+    }
+  }
+
+  // Menu mobile
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('nav-active');
+    document.querySelector('.burger').classList.toggle('toggle');
+  }
+
+  // Khởi tạo trang
+  async function initializePage() {
+    setDefaultDates();
+    const auth = await checkAuthentication();
+    
+    if (auth) {
+      updateLoginLogoutLink(true);
+      
+      const teacherId = auth.linked_id;
+      
+      // Lấy thông tin giáo viên và khóa học
+      await getTeacherInfo(teacherId);
+      await getCoursesByTeacher(teacherId);
+      
+      // Lấy lịch dạy
+      await getTeacherSchedule(teacherId);
+      
+      // Thêm sự kiện cho nút lọc
+      document.getElementById('btnFilter').addEventListener('click', () => {
+        getTeacherSchedule(teacherId);
+      });
+      
+      // Thêm sự kiện cho nút đăng xuất
+      document.getElementById('logoutBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        logout();
+      });
+    }
+  }
+
+  // Khởi chạy khi trang tải xong
+  document.addEventListener('DOMContentLoaded', initializePage);
+</script>
+
+<!-- Phần chân trang -->
+<footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <div class="footer-logo">
+            <span class="poly-color">Poly</span> Center
+          </div>
+          <p>Future in Language</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Liên kết nhanh</h3>
+          <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="tamnhin_sumenh.html">Giới thiệu</a></li>
+            <li><a href="courses.html">Khóa học</a></li>
+            <li><a href="#">Lịch học</a></li>
+            <li><a href="register.html">Đăng ký</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Khóa học</h3>
+          <ul>
+            <li><a href="#">Tiếng Anh Giao Tiếp</a></li>
+            <li><a href="#">Tiếng Anh Thiếu Nhi</a></li>
+            <li><a href="#">Tiếng Anh IELTS</a></li>
+            <li><a href="#">Tiếng Nhật</a></li>
+            <li><a href="#">Tiếng Hàn</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Liên hệ</h3>
+          <ul class="contact-info">
+            <li><i class="fas fa-map-marker-alt"></i> 123 Đường ABC, Quận XYZ, TP.HCM</li>
+            <li><i class="fas fa-phone"></i> 0123 456 789</li>
+            <li><i class="fas fa-envelope"></i> info@polycenter.edu.vn</li>
+            <li><i class="fas fa-clock"></i> T2-T6: 8:00 - 20:00, T7-CN: 8:00 - 17:00</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>&copy; 2025 Poly Center. Tất cả quyền được bảo lưu.</p>
+      </div>
+    </div>
+</footer>
+
+</body>
+</html>

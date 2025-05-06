@@ -1,0 +1,62 @@
+.attendance-section {
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .attendance-section h2 {
+    margin-bottom: 16px;
+    color: #333;
+  }
+  
+  .attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .attendance-table th,
+  .attendance-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .attendance-table th {
+    background-color: #f0f0f0;
+  }
+
+  .attendance-section .class-info {
+    margin-bottom: 16px;
+    background-color: #fffbea;
+    padding: 12px;
+    border-left: 4px solid #ffc107;
+    border-radius: 8px;
+  }
+  
+  .attendance-section .class-info p {
+    margin: 4px 0;
+    font-size: 16px;
+  }
+
+  .attendance-section {
+    min-height: 500px; /* hoặc 100vh nếu toàn trang */
+    padding-bottom: 80px; /* tạo khoảng trống cho footer */
+  }
+  
+  .save-button {
+    margin-top: 16px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .save-button:hover {
+    background-color: #0056b3;
+  }
+  
