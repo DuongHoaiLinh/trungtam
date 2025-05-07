@@ -50,7 +50,8 @@ def authenticate(role=None):
     if not user_data and 'user_id' in session:
         user_data = {
             'user_id': session.get('user_id'),
-            'role': session.get('role')
+            'role': session.get('role'),
+            'linked_id': session.get('linked_id')
         }
     
     if not user_data:
@@ -127,18 +128,23 @@ def get_student_schedule(student_id):
 @app.route('/api/teacher/<int:teacher_id>/schedule', methods=['GET'])
 def get_teacher_schedule(teacher_id):
     # Xác thực người dùng
+    
     user_data = authenticate()
+    
     if not user_data:
         return jsonify({'error': 'Chưa đăng nhập'}), 401
     
     # Kiểm tra xem người dùng hiện tại có quyền xem lịch dạy của teacher_id không
-    if user_data.get('role') != 'admin' and (user_data.get('role') != 'teacher' or int(user_data.get('user_id')) != teacher_id and int(user_data.get('linked_id')) != teacher_id):
+
+    if user_data.get('role') != 'admin' and (user_data.get('role') != 'teacher'):
         return jsonify({'error': 'Không có quyền xem lịch dạy này'}), 403
     
     # Lấy thông tin lọc từ query parameters
+    
     date_from = request.args.get('date_from')
     date_to = request.args.get('date_to')
     course_filter = request.args.get('course')
+    
     
     # Xử lý ngày tháng
     try:
@@ -263,6 +269,7 @@ def logout():
 @app.route('/api/verify-auth', methods=['GET'])
 def verify_auth():
     user_data = authenticate()
+    # return user_data
     if user_data:
         return jsonify({
             'authenticated': True,

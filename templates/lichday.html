@@ -141,7 +141,9 @@
   // Kiểm tra xác thực
   async function checkAuthentication() {
     try {
-      const response = await fetch('/api/verify-auth', {
+      const url = "http://127.0.0.1:5000/api/verify-auth";
+      
+      const response = await fetch(url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -150,7 +152,7 @@
         credentials: 'include'
       });
       
-      const data = await response.json();
+      const data  = await response.json();
       
       if (data.authenticated) {
         // Nếu không phải giáo viên, chuyển hướng về trang chủ
@@ -164,7 +166,7 @@
         return data;
       } else {
         // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
-        window.location.href = '/login.html?redirect=lichday.html';
+        window.location.href = '/templates/login.html?redirect=lichday.html';
         return false;
       }
     } catch (error) {
@@ -190,7 +192,8 @@
   // Lấy thông tin giáo viên
   async function getTeacherInfo(teacherId) {
     try {
-      const response = await fetch(`/api/teachers/${teacherId}`, {
+      console.log(teacherId);
+      const response = await fetch(`http://127.0.0.1:5000/api/teachers/${teacherId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -215,7 +218,7 @@
   // Lấy danh sách khóa học mà giáo viên dạy
   async function getCoursesByTeacher(teacherId) {
     try {
-      const response = await fetch(`/api/teacher/${teacherId}/courses`, {
+      const response = await fetch(`http://127.0.0.1:5000/api/teacher/${teacherId}/courses`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -259,7 +262,7 @@
       const courseFilter = document.getElementById('course-filter').value;
       
       // Xây dựng URL với tham số lọc
-      let url = `/api/teacher/${teacherId}/schedule?date_from=${dateFrom}&date_to=${dateTo}`;
+      let url = `http://127.0.0.1:5000/api/teacher/${teacherId}/schedule?date_from=${dateFrom}&date_to=${dateTo}`;
       if (courseFilter) {
         url += `&course=${encodeURIComponent(courseFilter)}`;
       }
@@ -362,7 +365,7 @@
       });
       
       localStorage.removeItem('token');
-      window.location.href = '/login.html';
+      window.location.href = '/templates/login.html';
     } catch (error) {
       console.error('Lỗi khi đăng xuất:', error);
     }
@@ -376,14 +379,13 @@
 
   // Khởi tạo trang
   async function initializePage() {
-    setDefaultDates();
-    const auth = await checkAuthentication();
     
+    setDefaultDates(); 
+    const auth = await checkAuthentication(); 
     if (auth) {
       updateLoginLogoutLink(true);
-      
+      console.log(auth);
       const teacherId = auth.linked_id;
-      
       // Lấy thông tin giáo viên và khóa học
       await getTeacherInfo(teacherId);
       await getCoursesByTeacher(teacherId);
