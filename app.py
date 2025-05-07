@@ -62,7 +62,13 @@ def authenticate(role=None):
         return None
     
     return user_data
+@app.route("/")
+def home():
+    return "Hello from Flask!"
 
+@app.route("/ping")
+def ping():
+    return "pong", 200
 @app.route('/api/student/<int:student_id>/schedule', methods=['GET'])
 def get_student_schedule(student_id):
     # Xác thực người dùng
